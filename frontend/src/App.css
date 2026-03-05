@@ -1,0 +1,320 @@
+/* ---------------- BASE ---------------- */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  transition: 0.3s ease;
+}
+
+.layout {
+  display: flex;
+}
+
+/* ---------------- SIDEBAR ---------------- */
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  padding: 25px;
+  border-right: 1px solid;
+  transition: 0.3s ease;
+}
+
+.menu {
+  margin-top: 40px;
+}
+
+.menu-item {
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: 0.2s ease;
+}
+
+/* ---------------- MAIN ---------------- */
+.main {
+  flex: 1;
+  padding: 40px;
+  transition: 0.3s ease;
+}
+
+button {
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+/* ---------------- STATS ---------------- */
+.stats {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  flex: 1;
+  padding: 25px;
+  border-radius: 14px;
+  text-align: center;
+  transition: 0.3s ease;
+}
+
+/* ---------------- TABS ---------------- */
+.tabs {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid;
+  padding-bottom: 10px;
+}
+
+.tabs span {
+  cursor: pointer;
+  padding-bottom: 5px;
+  transition: 0.2s;
+}
+
+.active-tab {
+  border-bottom: 2px solid;
+}
+
+/* ---------------- KEYWORDS ---------------- */
+.keywords-box {
+  padding: 25px;
+  border-radius: 14px;
+  transition: 0.3s ease;
+}
+
+.bar-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.word {
+  width: 130px;
+}
+
+.bar {
+  flex: 1;
+  height: 10px;
+  margin: 0 15px;
+  border-radius: 6px;
+}
+
+.bar-fill {
+  height: 10px;
+  border-radius: 6px;
+}
+
+/* ===================================================== */
+/* ===================== DARK MODE ===================== */
+/* ===================================================== */
+
+.layout.dark {
+  background-color: #0f1117;
+  color: white;
+}
+
+.layout.dark .sidebar {
+  background-color: #161b22;
+  border-color: #222;
+}
+
+.layout.dark .sidebar h2 {
+  color: #10B981;
+}
+
+.layout.dark .menu-item {
+  color: #ccc;
+}
+
+.layout.dark .menu-item:hover {
+  background-color: #1f2630;
+}
+
+.layout.dark .menu-item.active {
+  background-color: #10B981;
+  color: black;
+}
+
+.layout.dark button {
+  background: #10B981;
+  color: black;
+}
+
+.layout.dark .stat-card {
+  background-color: #161b22;
+  border: 1px solid #222;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.08);
+}
+
+.layout.dark .tabs {
+  border-color: #222;
+}
+
+.layout.dark .tabs span {
+  color: #aaa;
+}
+
+.layout.dark .tabs span:hover {
+  color: white;
+}
+
+.layout.dark .active-tab {
+  border-color: #10B981;
+  color: #10B981;
+}
+
+.layout.dark .keywords-box {
+  background-color: #161b22;
+  border: 1px solid #222;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.05);
+}
+
+.layout.dark .bar {
+  background-color: #222;
+}
+
+.layout.dark .bar-fill {
+  background: linear-gradient(90deg, #10B981, #34D399);
+}
+
+/* ===================================================== */
+/* ===================== LIGHT MODE ==================== */
+/* ===================================================== */
+
+.layout.light {
+  background-color: #f5f9f6;
+  color: #1a1a1a;
+}
+
+.layout.light .sidebar {
+  background-color: #ffffff;
+  border-color: #e5e5e5;
+}
+
+.layout.light .sidebar h2 {
+  color: #10B981;
+}
+
+.layout.light .menu-item {
+  color: #555;
+}
+
+.layout.light .menu-item:hover {
+  background-color: #f0f0f0;
+}
+
+.layout.light .menu-item.active {
+  background-color: #10B981;
+  color: white;
+}
+
+.layout.light button {
+  background: #10B981;
+  color: white;
+}
+
+.layout.light .stat-card {
+  background-color: white;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.layout.light .tabs {
+  border-color: #ddd;
+}
+
+.layout.light .tabs span {
+  color: #666;
+}
+
+.layout.light .tabs span:hover {
+  color: black;
+}
+
+.layout.light .active-tab {
+  border-color: #10B981;
+  color: #10B981;
+}
+
+.layout.light .keywords-box {
+  background-color: white;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.layout.light .bar {
+  background-color: #e5e5e5;
+}
+
+.layout.light .bar-fill {
+  background: linear-gradient(90deg, #10B981, #84cc16);
+}
+.metrics-container {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.metric-card {
+  flex: 1;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  background: var(--card-bg);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.metric-card h4 {
+  margin-bottom: 10px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.metric-card h2 {
+  font-size: 28px;
+  margin: 0;
+}
+.dark {
+  --card-bg: #1e1e1e;
+}
+
+.light {
+  --card-bg: #ffffff;
+}
+.metrics-container {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.metric-card {
+  flex: 1;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  background: var(--card-bg);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.metric-card h4 {
+  margin-bottom: 10px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.metric-card h2 {
+  font-size: 28px;
+  margin: 0;
+}
+
+.dark {
+  --card-bg: #1e1e1e;
+}
+
+.light {
+  --card-bg: #ffffff;
+}
