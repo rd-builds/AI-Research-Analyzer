@@ -1,70 +1,214 @@
-# Getting Started with Create React App
+# AI-Powered Research Paper Analyzer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A full-stack web application that analyzes research papers using Natural Language Processing (NLP) techniques.
 
-## Available Scripts
+The system allows users to upload research papers (PDF format) and automatically extract structured insights such as keyword importance, document metrics, and similarity comparison between two papers.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## Project Overview
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+With the rapid growth of academic publications, manually reading and comparing research papers is time-consuming and inefficient.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+This project provides an automated analytical tool that:
 
-### `npm test`
+* Extracts text from uploaded PDFs
+* Identifies important keywords using TF-IDF
+* Computes document-level metrics
+* Measures similarity between two research papers
+* Displays results in an interactive dashboard
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Tech Stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Backend
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+* FastAPI
+* Pandas
+* NumPy
+* Scikit-learn (TF-IDF and Cosine Similarity)
+* PDFPlumber
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Frontend
 
-### `npm run eject`
+* React.js
+* Axios
+* CSS (Custom Styling)
+* Dark and Light Mode Interface
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Core Features
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 1. PDF Upload and Text Extraction
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+* Upload research papers in PDF format
+* Automatically extracts full textual content
 
-## Learn More
+### 2. Keyword Importance (TF-IDF)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+* Removes stopwords
+* Computes TF-IDF scores
+* Displays keyword importance using visual bar charts
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 3. Document Metrics
 
-### Code Splitting
+* Word Count
+* Estimated Reading Time
+* Vocabulary Diversity (Unique word ratio)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 4. Paper-to-Paper Similarity
 
-### Analyzing the Bundle Size
+* Uses TF-IDF vectorization
+* Computes Cosine Similarity
+* Classifies research similarity level:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+  * Highly Similar
+  * Moderately Related
+  * Different Research Areas
 
-### Making a Progressive Web App
+### 5. Interactive Dashboard
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+* Sidebar navigation (Upload / Analysis / Compare)
+* Metric cards display
+* Keyword visualization
+* Dark and Light mode toggle
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Installation and Setup Instructions
 
-### Deployment
+### Prerequisites
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Ensure you have installed:
 
-### `npm run build` fails to minify
+* Python (3.9 or higher)
+* Node.js (v18 or higher)
+* Git
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+
+## Step 1: Clone the Repository
+
+git clone <your-repository-link>
+cd AI-Research-Analyzer
+
+---
+
+## Step 2: Setup Backend
+
+cd backend
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+
+Start the backend server:
+
+uvicorn main:app --host 127.0.0.1 --port 8000
+
+Backend runs at:
+
+[http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+API documentation available at:
+
+[http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+
+---
+
+## Step 3: Setup Frontend
+
+Open a new terminal:
+
+cd frontend
+npm install
+npm start
+
+Frontend runs at:
+
+[http://localhost:3000](http://localhost:3000)
+
+---
+
+## How to Run the Application
+
+1. Start the backend server.
+2. Start the frontend server.
+3. Open [http://localhost:3000](http://localhost:3000) in your browser.
+4. Upload Paper 1.
+5. Upload Paper 2 (optional for comparison).
+6. View analysis metrics and keyword importance.
+7. Use the Compare section to calculate similarity.
+
+---
+
+## Similarity Calculation
+
+Similarity between two papers is calculated using:
+
+* TF-IDF Vectorization
+* Cosine Similarity
+
+Cosine Similarity Formula:
+
+Cosine Similarity = (A · B) / (||A|| ||B||)
+
+Score Range:
+
+* 0 → Completely different
+* 1 → Identical research focus
+
+---
+
+## Project Structure
+
+AI-Research-Analyzer/
+│
+├── backend/
+│   ├── main.py
+│   ├── requirements.txt
+│
+├── frontend/
+│   ├── src/
+│   │   ├── App.js
+│   │   ├── App.css
+│
+├── README.md
+
+---
+
+## Future Improvements
+
+* Advanced topic modeling
+* Citation pattern visualization
+* Multi-paper clustering
+* Export analysis results as PDF
+
+---
+
+## Author
+
+Developed as an academic project demonstrating:
+
+* Full-stack development
+* NLP-based document analysis
+* Backend–Frontend integration
+* Data visualization
+
+---
+
+## License
+
+This project is developed for educational purposes.
+
+### How to Run
+
+Backend
+cd backend
+venv\Scripts\activate
+uvicorn main:app --host 127.0.0.1 --port 8000
+
+Frontend
+cd frontend
+npm start

@@ -201,3 +201,14 @@ Developed as an academic project demonstrating:
 ## License
 
 This project is developed for educational purposes.
+
+### How to Run
+
+Backend
+cd backend
+venv\Scripts\activate
+uvicorn main:app --host 127.0.0.1 --port 8000
+
+Frontend
+cd frontend
+npm start
