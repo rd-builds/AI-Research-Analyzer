@@ -6,6 +6,10 @@ import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from pydantic import BaseModel
+from pdf2docx import Converter
+import uuid
+import os
+from fastapi.responses import FileResponse
 
 app = FastAPI()
 
@@ -90,11 +94,10 @@ def compute_similarity(text1, text2):
     similarity = cosine_similarity(vectors[0:1], vectors[1:2])
     return float(similarity[0][0])
 
+
 # ---------------- ABSTRACT GENERATOR ---------------- #
 
 def generate_abstract(text):
-
-    original_text = text
 
     text = text.lower()
 
@@ -116,16 +119,18 @@ def generate_abstract(text):
     return abstract
 
 
-# ---------------- COMPARE ROUTE ---------------- #
+# ---------------- TITLE GENERATOR ---------------- #
 
-class CompareRequest(BaseModel):
-    text1: str
-    text2: str
+def generate_title(keywords):
 
-@app.post("/compare")
-def compare_papers(request: CompareRequest):
-    similarity = compute_similarity(request.text1, request.text2)
-    return {"similarity": similarity}
+    if not keywords:
+        return "AI Based Research Study"
+
+    words = list(keywords.keys())[:3]
+
+    title = " ".join(word.capitalize() for word in words)
+
+    return f"{title} Research"
 
 
 # ---------------- DOMAIN DETECTION ---------------- #
@@ -172,21 +177,58 @@ def detect_domain(text):
     return detected_domain
 
 
+# ---------------- COMPARE ROUTE ---------------- #
+
+class CompareRequest(BaseModel):
+    text1: str
+    text2: str
+
+@app.post("/compare")
+def compare_papers(request: CompareRequest):
+    similarity = compute_similarity(request.text1, request.text2)
+    return {"similarity": similarity}
+
+
 # ---------------- UPLOAD ROUTE ---------------- #
 
 @app.post("/upload")
 async def upload(file: UploadFile = File(...)):
+
     text = extract_text_from_pdf(file.file)
 
     keywords = extract_keywords(text)
     metrics = compute_metrics(text)
     domain = detect_domain(text)
     abstract = generate_abstract(text)
+    title = generate_title(keywords)
 
     return {
         "keywords": keywords,
         "metrics": metrics,
         "domain": domain,
         "abstract": abstract,
+        "title": title,
         "full_text": text
     }
+
+
+# ---------------- PDF → WORD CONVERTER ---------------- #
+
+@app.post("/convert")
+async def convert_pdf_to_word(file: UploadFile = File(...)):
+
+    pdf_path = f"temp_{uuid.uuid4()}.pdf"
+    docx_path = pdf_path.replace(".pdf", ".docx")
+
+    with open(pdf_path, "wb") as f:
+        f.write(await file.read())
+
+    cv = Converter(pdf_path)
+    cv.convert(docx_path, start=0, end=None)
+    cv.close()
+
+    return FileResponse(
+        docx_path,
+        media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        filename="converted.docx"
+    )

@@ -13,7 +13,6 @@ function App() {
   const [activeSection, setActiveSection] = useState("upload");
   const [analysisView, setAnalysisView] = useState("paper1");
 
-  // ---------------- UPLOAD ----------------
   const uploadPaper = async (file, setData) => {
     if (!file) return alert("Select file first");
 
@@ -34,7 +33,39 @@ function App() {
     setLoading(false);
   };
 
-  // ---------------- SIMILARITY ----------------
+  const convertPDF = async (file) => {
+
+    if (!file) {
+      alert("Select a PDF first");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+
+      const response = await axios.post(
+        "http://127.0.0.1:8000/convert",
+        formData,
+        { responseType: "blob" }
+      );
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "converted.docx");
+
+      document.body.appendChild(link);
+      link.click();
+
+    } catch {
+      alert("Conversion failed");
+    }
+
+  };
+
   const calculateSimilarity = async () => {
     if (!data1 || !data2) {
       alert("Upload both papers first");
@@ -91,7 +122,6 @@ function App() {
   return (
     <div className={darkMode ? "layout dark" : "layout light"}>
 
-      {/* SIDEBAR */}
       <div className="sidebar">
         <h2>PaperLab</h2>
 
@@ -126,7 +156,6 @@ function App() {
         </div>
       </div>
 
-      {/* MAIN */}
       <div className="main">
 
         <div style={{ textAlign: "right", marginBottom: "20px" }}>
@@ -135,7 +164,6 @@ function App() {
           </button>
         </div>
 
-        {/* ================= UPLOAD ================= */}
         {activeSection === "upload" && (
           <div className="keywords-box">
             <h2>Upload Papers</h2>
@@ -153,10 +181,21 @@ function App() {
             </button>
 
             {loading && <p>Processing...</p>}
+
+            <br /><br /><br />
+
+            <h3>Utility Tool</h3>
+            <h4>PDF → Word Converter</h4>
+
+            <input type="file" onChange={(e) => setPaper1(e.target.files[0])} />
+
+            <button onClick={() => convertPDF(paper1)}>
+              Convert to Word
+            </button>
+
           </div>
         )}
 
-        {/* ================= ANALYSIS ================= */}
         {activeSection === "analysis" && currentData && (
           <>
             <div style={{ marginBottom: "20px" }}>
@@ -172,7 +211,6 @@ function App() {
               </button>
             </div>
 
-            {/* METRIC CARDS */}
             {currentData.metrics && (
               <div className="metrics-container">
 
@@ -196,7 +234,6 @@ function App() {
               </div>
             )}
 
-            {/* KEYWORD BARS */}
             <div className="keywords-box">
               <h2>Keyword Importance (TF-IDF)</h2>
 
@@ -228,34 +265,78 @@ function App() {
           </>
         )}
 
-        {/* ================= SUMMARY ================= */}
         {activeSection === "summary" && currentData && (
           <div className="keywords-box">
 
-            <h2>AI Insights</h2>
+            <h2 style={{marginBottom:"25px"}}>
+              AI Insights
+            </h2>
 
-            <h3>Detected Research Domain</h3>
-            <p style={{ fontSize: "22px", fontWeight: "bold" }}>
-              {currentData.domain}
-            </p>
+            {/* NEW PAPER SWITCH */}
+            <div style={{ marginBottom: "25px" }}>
+              <button onClick={() => setAnalysisView("paper1")}>
+                View Paper 1
+              </button>
 
-            <br />
+              <button
+                onClick={() => setAnalysisView("paper2")}
+                style={{ marginLeft: "10px" }}
+              >
+                View Paper 2
+              </button>
+            </div>
 
-            <h3>Generated Abstract</h3>
-            <p style={{
-              lineHeight: "1.8",
-              fontSize: "16px",
-              padding: "10px",
-              background: darkMode ? "#1f2937" : "#f3f4f6",
-              borderRadius: "8px"
-            }}>
-              {currentData.abstract}
-            </p>
+            <div style={{marginBottom:"35px"}}>
+              <h3 style={{marginBottom:"10px"}}>
+                Suggested Research Title
+              </h3>
+
+              <p style={{
+                fontSize:"22px",
+                fontWeight:"bold",
+                color: darkMode ? "#22D3EE" : "#2563EB",
+                padding:"12px 18px",
+                borderRadius:"8px",
+                background: darkMode ? "#1f2937" : "#f1f5f9",
+                display:"inline-block"
+              }}>
+                {currentData.title}
+              </p>
+            </div>
+
+            <div style={{marginBottom:"35px"}}>
+              <h3 style={{marginBottom:"10px"}}>
+                Detected Research Domain
+              </h3>
+
+              <p style={{
+                fontSize:"22px",
+                fontWeight:"bold",
+                color: darkMode ? "#10B981" : "#059669"
+              }}>
+                {currentData.domain}
+              </p>
+            </div>
+
+            <div>
+              <h3 style={{marginBottom:"10px"}}>
+                Generated Abstract
+              </h3>
+
+              <p style={{
+                lineHeight:"1.9",
+                fontSize:"16px",
+                padding:"18px",
+                background: darkMode ? "#1f2937" : "#f3f4f6",
+                borderRadius:"10px"
+              }}>
+                {currentData.abstract}
+              </p>
+            </div>
 
           </div>
         )}
 
-        {/* ================= COMPARE ================= */}
         {activeSection === "compare" && data1 && data2 && (
           <div className="keywords-box">
             <h2>Comparison Results</h2>
